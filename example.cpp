@@ -8,5 +8,6 @@
 
 int main() {
 	fsplusplus::List();
+	fsplusplus::ListPath(fsplusplus::CDFunction("/.git"));
 	return 0;
 }
