@@ -72,7 +72,7 @@ namespace fsplusplus {
 	}
 	
 	void ListFile() {
-		    DIR *directory;
+	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
     	    directory = opendir(getenv("PWD"));
@@ -125,6 +125,34 @@ namespace fsplusplus {
             }
     	}
    	 closedir(directory);
+	}
+	
+	void ListDirectory() {
+	    DIR *directory;
+	    struct dirent *entryname;
+	    struct stat filestat;
+    	    directory = opendir(getenv("PWD"));
+    	    if(directory == NULL) {
+        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
+        	return;
+    	    }
+            while ((entryname = readdir(directory)))
+    	    {
+        	stat(entryname->d_name, &filestat);
+        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
+            	if(strstr(entryname->d_name, ".")) {
+            		// Null
+            	} else if(strstr(entryname->d_name, "..")){
+	    		// Null
+	    	} else {  
+          		printf("%4s: %s\n", "[Dir]", entryname->d_name);
+            	}
+            } else {
+               // Null
+            }
+    	   }
+   	 closedir(directory);
+	
 	}
 }
 
