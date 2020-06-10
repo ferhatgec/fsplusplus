@@ -14,12 +14,27 @@
 #include <fstream>
 #include <sys/stat.h>
 
+#ifdef WINDOWS
+#include <direct.h>
+#define GetCurrentDir _getcwd
+#else
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
+
 namespace fsplusplus {
+	std::string GetCurrentWorkingDir(void) {
+  		char buff[FILENAME_MAX];
+  		GetCurrentDir( buff, FILENAME_MAX );
+  		std::string current_working_dir(buff);
+  		return current_working_dir;
+	}
+
 	void List() {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(getenv("PWD"));
+    	    directory = opendir(GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
         	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
         	return;
@@ -75,7 +90,7 @@ namespace fsplusplus {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(getenv("PWD"));
+    	    directory = opendir(GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
         	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
         	return;
@@ -131,7 +146,7 @@ namespace fsplusplus {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(getenv("PWD"));
+    	    directory = opendir(GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
         	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
         	return;
@@ -158,7 +173,7 @@ namespace fsplusplus {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(getenv("PWD"));
+    	    directory = opendir(GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
         	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
         	return;
@@ -185,7 +200,7 @@ namespace fsplusplus {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(getenv("PWD"));
+    	    directory = opendir(GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
         	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
         	return;
@@ -265,7 +280,7 @@ namespace fsplusplus {
 	}
 
 	std::string CDFunction(std::string path) {
-		return getenv("PWD") + path;
+		return GetCurrentWorkingDir() + path;
 	}
 }
 
