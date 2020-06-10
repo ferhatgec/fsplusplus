@@ -7,6 +7,6 @@
 #include "FileSystemPlusPlus.h"
 
 int main() {
-	fsplusplus::List();
+	fsplusplus::ListFile();
 	return 0;
 }

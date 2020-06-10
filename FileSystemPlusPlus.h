@@ -70,6 +70,62 @@ namespace fsplusplus {
     	}
    	 closedir(directory);
 	}
+	
+	void ListFile() {
+		    DIR *directory;
+	    struct dirent *entryname;
+	    struct stat filestat;
+    	    directory = opendir(getenv("PWD"));
+    	    if(directory == NULL) {
+        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
+        	return;
+    	    }
+            while ((entryname = readdir(directory)))
+    	    {
+        	stat(entryname->d_name, &filestat);
+        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
+            	if(strstr(entryname->d_name, ".")) {
+            		// Null
+            	} else if(strstr(entryname->d_name, "..")){
+	    		// Null
+	    	} else {  
+          	// Null
+            	}
+            } 
+            else if(strstr(entryname->d_name, ".scr"))
+            {
+            	printf("%4s: %s\n", "[Scrift]", entryname->d_name);
+            }     
+	    else if(strstr(entryname->d_name, ".cpp")) 
+	    {
+            	printf("%4s: %s\n", "[C++]", entryname->d_name);
+	    }  
+	    else if(strstr(entryname->d_name, ".c"))
+	    {
+            	printf("%4s: %s\n", "[C]", entryname->d_name);		
+	    }
+	    else if(strstr(entryname->d_name, "CMakeLists.txt"))
+	    {
+            	printf("%4s: %s\n", "[CMake]", entryname->d_name);	
+	    }
+	    else if(strstr(entryname->d_name, ".sh"))
+	    {
+            	printf("%4s: %s\n", "[Bash]", entryname->d_name);	
+	    }
+ 	    else if(strstr(entryname->d_name, ".py")) 
+	    {
+            	printf("%4s: %s\n", "[Python]", entryname->d_name);
+	    }
+	    else if(strstr(entryname->d_name, ".md")) 
+	    {
+            	printf("%4s: %s\n", "[Markdown]", entryname->d_name);
+	    }	
+            else {
+               printf("%4s: %s\n", "[File]", entryname->d_name);
+            }
+    	}
+   	 closedir(directory);
+	}
 }
 
 #endif // FILE_SYSTEM_PLUS_PLUS_H
