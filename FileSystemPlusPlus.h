@@ -297,6 +297,22 @@ namespace fsplusplus {
     	} else {
         	printf("Unable to open file\n");
     	}
+    	}
+    	
+    	void ReadFilePath(std::string path) {
+    		std::string line;
+    		std::ifstream readfile(path.c_str());
+    		if(readfile.is_open())
+    		{
+        	while (std::getline(readfile, line))
+        	{
+			printf(line.c_str());
+			printf("\n");
+        	}
+        	readfile.close();
+    	} else {
+        	printf("Unable to open file\n");
+    	}
 	
 	}
 }
