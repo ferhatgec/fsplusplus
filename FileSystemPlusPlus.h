@@ -282,6 +282,23 @@ namespace fsplusplus {
 	std::string CDFunction(std::string path) {
 		return GetCurrentWorkingDir() + path;
 	}
+	
+	void ReadFile(std::string file) {
+		std::string line;
+    		std::ifstream readfile((GetCurrentWorkingDir() + "/" + file).c_str());
+    		if(readfile.is_open())
+    		{
+        	while (std::getline(readfile, line))
+        	{
+			printf(line.c_str());
+			printf("\n");
+        	}
+        	readfile.close();
+    	} else {
+        	printf("Unable to open file\n");
+    	}
+	
+	}
 }
 
 #endif // FILE_SYSTEM_PLUS_PLUS_H
