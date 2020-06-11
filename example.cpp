@@ -7,9 +7,10 @@
 #include "FileSystemPlusPlus.h"
 
 int main() {
-	fsplusplus::List();
-	fsplusplus::ListPath(fsplusplus::CDFunction("/.git"));
-	fsplusplus::ReadFile("run.scr");
-	fsplusplus::ReadFilePath(fsplusplus::GetCurrentWorkingDir() + "/" + "run.scr");
+	//fsplusplus::List();
+	//fsplusplus::ListPath(fsplusplus::CDFunction("/.git"));
+	//fsplusplus::ReadFile("run.scr");
+	//fsplusplus::ReadFilePath(fsplusplus::GetCurrentWorkingDir() + "/" + "run.scr");
+	fsplusplus::FindPath("e");
 	return 0;
 }

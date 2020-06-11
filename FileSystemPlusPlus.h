@@ -299,6 +299,34 @@ namespace fsplusplus {
     	}
     	}
     	
+    	void FindPath(std::string name) {
+    	    DIR *directory;
+    	    struct dirent *entryname;
+	    struct stat filestat;
+    	    directory = opendir(GetCurrentWorkingDir().c_str());
+    	    if(directory == NULL) {
+            printf("ERR: DIRECTORY OR FILE NOT FOUND OR NULL\n");
+            return;
+    	    }
+    	    while ((entryname = readdir(directory)))
+    	    {
+            stat(entryname->d_name, &filestat);
+            if(entryname->d_type == DT_DIR) {
+                if(strstr(entryname->d_name, ".")) {
+                // Null
+                } else if(strstr(entryname->d_name, "..")){
+	        // Null
+	        } else if(strstr(entryname->d_name, name.c_str())) {  
+            	  printf("%4s %s\n", "[Dir]", entryname->d_name);
+                }
+            } 
+            else if(strstr(entryname->d_name, name.c_str())){
+                 printf("%4s %s\n", "[File]", entryname->d_name);
+            }
+            }
+   	 closedir(directory);
+    	}
+    	
     	void ReadFilePath(std::string path) {
     		std::string line;
     		std::ifstream readfile(path.c_str());
