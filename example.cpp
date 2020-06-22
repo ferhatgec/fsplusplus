@@ -11,6 +11,8 @@ int main() {
 	//fsplusplus::ListPath(fsplusplus::CDFunction("/.git"));
 	//fsplusplus::ReadFile("run.scr");
 	//fsplusplus::ReadFilePath(fsplusplus::GetCurrentWorkingDir() + "/" + "run.scr");
+	//fsplusplus::CreateFileWithoutAppend("hello");
+	//fsplusplus::CreateFile("hello", "Hello from FileSystem++");
 	fsplusplus::FindPath("e");
 	return 0;
 }

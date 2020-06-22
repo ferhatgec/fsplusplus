@@ -341,7 +341,25 @@ namespace fsplusplus {
     	} else {
         	printf("Unable to open file\n");
     	}
+	}
 	
+	void CreateFile(std::string name, std::string input) {
+		std::string path;
+    		path.append(GetCurrentWorkingDir());
+    		path.append("/");
+    		path.append(name);
+    		std::ofstream file(path, std::ios::app);
+    		file << input;
+    		file.close();
+	}
+	
+	void CreateFileWithoutAppend(std::string name) {
+		std::string path;
+    		path.append(GetCurrentWorkingDir());
+    		path.append("/");
+    		path.append(name);
+    		std::ofstream file(path);
+    		file.close();
 	}
 }
 
