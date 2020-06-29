@@ -1,5 +1,5 @@
 /*# MIT License
-#
+# Forked from https://github.com/FerhatGec/fsplusplus
 # Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
 # Distributed under the terms of the MIT License.
 #*/
@@ -23,14 +23,37 @@
 #endif
 
 namespace fsplusplus {
-	std::string GetCurrentWorkingDir(void) {
+	static std::string EraseAllSubString(std::string & mainString, const std::string & erase) {
+   	 size_t pos = std::string::npos;
+   	 while((pos = mainString.find(erase)) != std::string::npos) {
+   	     	mainString.erase(pos, erase.length());
+   	 }
+   		return mainString;
+    	}
+
+	// Get Between String    
+	void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
+    		int start = oStr.find(sStr1);   
+    	if (start >= 0) {       
+      		std::string tstr = oStr.substr(start + sStr1.length());        
+      		int stop = tstr.find(sStr2);      
+      		if (stop >1)          
+        		rStr = oStr.substr(start + sStr1.length(), stop);
+      		else
+        		rStr ="error";  
+    		}
+    		else
+       		rStr = "error"; 
+	}
+
+	static std::string GetCurrentWorkingDir(void) {
   		char buff[FILENAME_MAX];
   		GetCurrentDir( buff, FILENAME_MAX );
   		std::string current_working_dir(buff);
   		return current_working_dir;
 	}
 
-	void List() {
+	static void List() {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
@@ -86,7 +109,7 @@ namespace fsplusplus {
    	 closedir(directory);
 	}
 	
-	void ListFile() {
+	static void ListFile() {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
@@ -142,7 +165,7 @@ namespace fsplusplus {
    	 closedir(directory);
 	}
 	
-	void ListDirectory() {
+	static void ListDirectory() {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
@@ -169,7 +192,7 @@ namespace fsplusplus {
    	 closedir(directory);
 	}
 	
-	void ListFileDefault() {
+	static void ListFileDefault() {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
@@ -196,7 +219,7 @@ namespace fsplusplus {
    	 closedir(directory);
 	}
 	
-	void ListDirectoryDefault() {
+	static void ListDirectoryDefault() {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
@@ -223,7 +246,7 @@ namespace fsplusplus {
    	 closedir(directory);	
 	}
 	
-	void ListPath(std::string path) {
+	static void ListPath(std::string path) {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
@@ -279,11 +302,11 @@ namespace fsplusplus {
    	 closedir(directory);				
 	}
 
-	std::string CDFunction(std::string path) {
+	static std::string CDFunction(std::string path) {
 		return GetCurrentWorkingDir() + path;
 	}
 	
-	void ReadFile(std::string file) {
+	static void ReadFile(std::string file) {
 		std::string line;
     		std::ifstream readfile((GetCurrentWorkingDir() + "/" + file).c_str());
     		if(readfile.is_open())
@@ -299,7 +322,20 @@ namespace fsplusplus {
     	}
     	}
     	
-    	void FindPath(std::string name) {
+    	static std::string ReadFileWithReturn(std::string file) {
+		std::string line;
+    		std::ifstream readfile((GetCurrentWorkingDir() + "/" + file).c_str());
+    		if(readfile.is_open()) {
+        	while (std::getline(readfile, line)) {
+			return line + "\n";
+        	}
+        	readfile.close();
+    	} else {
+        	printf("Unable to open file\n");
+    	}
+    	}
+    	
+    	static void FindPath(std::string name) {
     	    DIR *directory;
     	    struct dirent *entryname;
 	    struct stat filestat;
@@ -327,7 +363,7 @@ namespace fsplusplus {
    	 closedir(directory);
     	}
     	
-    	void ReadFilePath(std::string path) {
+    	static void ReadFilePath(std::string path) {
     		std::string line;
     		std::ifstream readfile(path.c_str());
     		if(readfile.is_open())
@@ -343,7 +379,42 @@ namespace fsplusplus {
     	}
 	}
 	
-	void CreateFile(std::string name, std::string input) {
+	static void ReadCPU() {
+    		std::string line;
+    		std::ifstream readfile("/proc/cpuinfo");
+    		if(readfile.is_open()) {
+        	while (std::getline(readfile, line)) {
+        		if(line.find("model name	: ") == 0) {
+				line = EraseAllSubString(line, "model name	: ");
+				printf(line.c_str());
+				printf("\n");
+				return;
+        		}
+        	}
+        	readfile.close();
+    	} else {
+        	printf("Unable to open file\n");
+    	}
+	}
+	
+	static void ReadOSName(std::string path) {
+    		std::string line;
+    		std::ifstream readfile(path.c_str());
+    		if(readfile.is_open()) {
+        	while (std::getline(readfile, line)) {
+        		if(line.find("PRETTY_NAME=\"") == 0) {
+				GetBtwString(line, "\"", "\"", line); 
+				printf(line.c_str());
+				printf("\n");
+        		}
+        	}
+        	readfile.close();
+    	} else {
+        	printf("Unable to open file\n");
+    	}
+	}
+	
+	static void CreateFile(std::string name, std::string input) {
 		std::string path;
     		path.append(GetCurrentWorkingDir());
     		path.append("/");
@@ -353,7 +424,7 @@ namespace fsplusplus {
     		file.close();
 	}
 	
-	void CreateFileWithoutAppend(std::string name) {
+	static void CreateFileWithoutAppend(std::string name) {
 		std::string path;
     		path.append(GetCurrentWorkingDir());
     		path.append("/");
