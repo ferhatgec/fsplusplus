@@ -455,10 +455,10 @@ namespace fsplusplus {
         		}
         	}
         	readfile.close();
-		#endif
     		} else {
         		printf("Unable to open file\n");
     		}
+		#endif
 	}
 	
 	static void CreateFile(std::string name, std::string input) {
