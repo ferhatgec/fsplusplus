@@ -32,7 +32,7 @@ namespace fsplusplus {
     	}
 
 	// Get Between String    
-	void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
+	static void GetBtwString(std::string oStr, std::string sStr1, std::string sStr2, std::string &rStr) {  
     		int start = oStr.find(sStr1);   
     	if (start >= 0) {       
       		std::string tstr = oStr.substr(start + sStr1.length());        
@@ -57,13 +57,12 @@ namespace fsplusplus {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
+    	    directory = opendir(fsplusplus::GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
         	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
         	return;
     	    }
-            while ((entryname = readdir(directory)))
-    	    {
+            while ((entryname = readdir(directory))) {
         	stat(entryname->d_name, &filestat);
         	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
             	if(strstr(entryname->d_name, ".")) {
@@ -73,39 +72,52 @@ namespace fsplusplus {
 	    	} else {  
             	printf("%4s: %s\n", "[Dir]", entryname->d_name);
             	}
-            } 
-            else if(strstr(entryname->d_name, ".scr"))
-            {
-            	printf("%4s: %s\n", "[Scrift]", entryname->d_name);
-            }     
-	    else if(strstr(entryname->d_name, ".cpp")) 
-	    {
-            	printf("%4s: %s\n", "[C++]", entryname->d_name);
-	    }  
-	    else if(strstr(entryname->d_name, ".c"))
-	    {
-            	printf("%4s: %s\n", "[C]", entryname->d_name);		
-	    }
-	    else if(strstr(entryname->d_name, "CMakeLists.txt"))
-	    {
-            	printf("%4s: %s\n", "[CMake]", entryname->d_name);	
-	    }
-	    else if(strstr(entryname->d_name, ".sh"))
-	    {
-            	printf("%4s: %s\n", "[Bash]", entryname->d_name);	
-	    }
- 	    else if(strstr(entryname->d_name, ".py")) 
-	    {
-            	printf("%4s: %s\n", "[Python]", entryname->d_name);
-	    }
-	    else if(strstr(entryname->d_name, ".md")) 
-	    {
-            	printf("%4s: %s\n", "[Markdown]", entryname->d_name);
-	    }	
-            else {
-               printf("%4s: %s\n", "[File]", entryname->d_name);
-            }
-    	}
+            	} else if(strstr(entryname->d_name, "Elitefile")) {
+            		printf("%4s: %s\n", "[Elitebuild]", entryname->d_name);
+            	} else if(strstr(entryname->d_name, ".scrift_log")) {
+	    		printf("%4s: %s\n", "FeLog*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scrift_ascii")) {
+			printf("%4s: %s\n", "Ascii Art*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scrift_settings")) {
+	    		printf("%4s: %s\n", "Settings*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scrift_history")) {
+	    		printf("%4s: %s\n", "History*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scr")) {
+            		printf("%4s: %s\n", "[Scrift]", entryname->d_name);
+            	} else if(strstr(entryname->d_name, ".cpp") || strstr(entryname->d_name, ".hpp") || strstr(entryname->d_name, ".cxx") || strstr(entryname->d_name, ".hxx") || strstr(entryname->d_name, ".cc") || strstr(entryname->d_name, ".hh")) {
+            		printf("%4s: %s\n", "[C++]", entryname->d_name);
+	    	} else if(strstr(entryname->d_name, ".c") || strstr(entryname->d_name, ".h")) {
+            		printf("%4s: %s\n", "[C]", entryname->d_name);		
+	    	} else if(strstr(entryname->d_name, "CMakeLists.txt")) {
+            		printf("%4s: %s\n", "[CMake]", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".sh")) {
+            		printf("%4s: %s\n", "[Bash]", entryname->d_name);
+	    	} else if(strstr(entryname->d_name, ".py")) {
+            		printf("%4s: %s\n", "[Python]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".fls") || strstr(entryname->d_name, ".flsh")) {
+		   	printf("%4s: %s\n", "[FlaScript]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".md")) {
+            		printf("%4s: %s\n", "[Markdown]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".frbr")) {
+	    		printf("%4s: %s\n", "[FreeBrain]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".png")) {
+	    		printf("%4s: %s\n", "[Png]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".jpg") || strstr(entryname->d_name, ".jpeg")) {
+	    		printf("%4s: %s\n", "[Jpg]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".gif")) {
+	    		printf("%4s: %s\n", "[Gif]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".html") || strstr(entryname->d_name, ".htm")) {
+	    		printf("%4s: %s\n", "[Html]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".rs") || strstr(entryname->d_name, ".rslib")) {
+	    		printf("%4s: %s\n", "[Rust]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".lua")) {
+	    		printf("%4s: %s\n", "[Lua]", entryname->d_name);	
+		} else if(strstr(entryname->d_name, ".inclink")) {
+	    		printf("%4s: %s\n", "[includeLink]", entryname->d_name);			
+		} else {
+               		printf("%4s: %s\n", "[File]", entryname->d_name);
+           	}
+    	  }
    	 closedir(directory);
 	}
 	
@@ -113,13 +125,12 @@ namespace fsplusplus {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
+    	    directory = opendir(fsplusplus::GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
+        	printf("Error: Directory not found.\n");
         	return;
     	    }
-            while ((entryname = readdir(directory)))
-    	    {
+            while ((entryname = readdir(directory))) {
         	stat(entryname->d_name, &filestat);
         	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
             	if(strstr(entryname->d_name, ".")) {
@@ -129,39 +140,52 @@ namespace fsplusplus {
 	    	} else {  
           	// Null
             	}
-            } 
-            else if(strstr(entryname->d_name, ".scr"))
-            {
-            	printf("%4s: %s\n", "[Scrift]", entryname->d_name);
-            }     
-	    else if(strstr(entryname->d_name, ".cpp")) 
-	    {
-            	printf("%4s: %s\n", "[C++]", entryname->d_name);
-	    }  
-	    else if(strstr(entryname->d_name, ".c"))
-	    {
-            	printf("%4s: %s\n", "[C]", entryname->d_name);		
-	    }
-	    else if(strstr(entryname->d_name, "CMakeLists.txt"))
-	    {
-            	printf("%4s: %s\n", "[CMake]", entryname->d_name);	
-	    }
-	    else if(strstr(entryname->d_name, ".sh"))
-	    {
-            	printf("%4s: %s\n", "[Bash]", entryname->d_name);	
-	    }
- 	    else if(strstr(entryname->d_name, ".py")) 
-	    {
-            	printf("%4s: %s\n", "[Python]", entryname->d_name);
-	    }
-	    else if(strstr(entryname->d_name, ".md")) 
-	    {
-            	printf("%4s: %s\n", "[Markdown]", entryname->d_name);
-	    }	
-            else {
-               printf("%4s: %s\n", "[File]", entryname->d_name);
-            }
-    	}
+           	} else if(strstr(entryname->d_name, "Elitefile")) {
+            		printf("%4s: %s\n", "[Elitebuild]", entryname->d_name);
+            	} else if(strstr(entryname->d_name, ".scrift_log")) {
+	    		printf("%4s: %s\n", "FeLog*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scrift_ascii")) {
+			printf("%4s: %s\n", "Ascii Art*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scrift_settings")) {
+	    		printf("%4s: %s\n", "Settings*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scrift_history")) {
+	    		printf("%4s: %s\n", "History*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scr")) {
+            		printf("%4s: %s\n", "[Scrift]", entryname->d_name);
+            	} else if(strstr(entryname->d_name, ".cpp") || strstr(entryname->d_name, ".hpp") || strstr(entryname->d_name, ".cxx") || strstr(entryname->d_name, ".hxx") || strstr(entryname->d_name, ".cc") || strstr(entryname->d_name, ".hh")) {
+            		printf("%4s: %s\n", "[C++]", entryname->d_name);
+	    	} else if(strstr(entryname->d_name, ".c") || strstr(entryname->d_name, ".h")) {
+            		printf("%4s: %s\n", "[C]", entryname->d_name);		
+	    	} else if(strstr(entryname->d_name, "CMakeLists.txt")) {
+            		printf("%4s: %s\n", "[CMake]", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".sh")) {
+            		printf("%4s: %s\n", "[Bash]", entryname->d_name);
+	    	} else if(strstr(entryname->d_name, ".py")) {
+            		printf("%4s: %s\n", "[Python]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".fls") || strstr(entryname->d_name, ".flsh")) {
+		   	printf("%4s: %s\n", "[FlaScript]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".md")) {
+            		printf("%4s: %s\n", "[Markdown]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".frbr")) {
+	    		printf("%4s: %s\n", "[FreeBrain]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".png")) {
+	    		printf("%4s: %s\n", "[Png]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".jpg") || strstr(entryname->d_name, ".jpeg")) {
+	    		printf("%4s: %s\n", "[Jpg]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".gif")) {
+	    		printf("%4s: %s\n", "[Gif]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".html") || strstr(entryname->d_name, ".htm")) {
+	    		printf("%4s: %s\n", "[Html]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".rs") || strstr(entryname->d_name, ".rslib")) {
+	    		printf("%4s: %s\n", "[Rust]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".lua")) {
+	    		printf("%4s: %s\n", "[Lua]", entryname->d_name);	
+		} else if(strstr(entryname->d_name, ".inclink")) {
+	    		printf("%4s: %s\n", "[includeLink]", entryname->d_name);			
+		} else {
+               		printf("%4s: %s\n", "[File]", entryname->d_name);
+            	}
+    	 }
    	 closedir(directory);
 	}
 	
@@ -169,9 +193,9 @@ namespace fsplusplus {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
+    	    directory = opendir(fsplusplus::GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
+        	printf("Error: Directory not found.\n");
         	return;
     	    }
             while ((entryname = readdir(directory)))
@@ -196,9 +220,9 @@ namespace fsplusplus {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
+    	    directory = opendir(fsplusplus::GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
+        	printf("Error: Directory not found.\n");
         	return;
     	    }
             while ((entryname = readdir(directory)))
@@ -223,13 +247,12 @@ namespace fsplusplus {
 	    DIR *directory;
 	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
+    	    directory = opendir(fsplusplus::GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
+        	printf("Error: Directory not found.\n");
         	return;
     	    }
-            while ((entryname = readdir(directory)))
-    	    {
+            while ((entryname = readdir(directory))) {
         	stat(entryname->d_name, &filestat);
         	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
             	if(strstr(entryname->d_name, ".")) {
@@ -252,11 +275,10 @@ namespace fsplusplus {
 	    struct stat filestat;
     	    directory = opendir(path.c_str());
     	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
+        	printf("Error: Directory not found.\n");
         	return;
     	    }
-            while ((entryname = readdir(directory)))
-    	    {
+            while ((entryname = readdir(directory))) {
         	stat(entryname->d_name, &filestat);
         	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
             	if(strstr(entryname->d_name, ".")) {
@@ -264,55 +286,66 @@ namespace fsplusplus {
             	} else if(strstr(entryname->d_name, "..")){
 	    		// Null
 	    	} else {  
-            	printf("%4s: %s\n", "[Dir]", entryname->d_name);
+            		printf("%4s: %s\n", "[Dir]", entryname->d_name);
             	}
-            } 
-            else if(strstr(entryname->d_name, ".scr"))
-            {
-            	printf("%4s: %s\n", "[Scrift]", entryname->d_name);
-            }     
-	    else if(strstr(entryname->d_name, ".cpp")) 
-	    {
-            	printf("%4s: %s\n", "[C++]", entryname->d_name);
-	    }  
-	    else if(strstr(entryname->d_name, ".c"))
-	    {
-            	printf("%4s: %s\n", "[C]", entryname->d_name);		
-	    }
-	    else if(strstr(entryname->d_name, "CMakeLists.txt"))
-	    {
-            	printf("%4s: %s\n", "[CMake]", entryname->d_name);	
-	    }
-	    else if(strstr(entryname->d_name, ".sh"))
-	    {
-            	printf("%4s: %s\n", "[Bash]", entryname->d_name);	
-	    }
- 	    else if(strstr(entryname->d_name, ".py")) 
-	    {
-            	printf("%4s: %s\n", "[Python]", entryname->d_name);
-	    }
-	    else if(strstr(entryname->d_name, ".md")) 
-	    {
-            	printf("%4s: %s\n", "[Markdown]", entryname->d_name);
-	    }	
-            else {
-               printf("%4s: %s\n", "[File]", entryname->d_name);
-            }
-    	}
+           	} else if(strstr(entryname->d_name, "Elitefile")) {
+            		printf("%4s: %s\n", "[Elitebuild]", entryname->d_name);
+            	} else if(strstr(entryname->d_name, ".scrift_log")) {
+	    		printf("%4s: %s\n", "FeLog*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scrift_ascii")) {
+	    		printf("%4s: %s\n", "Ascii Art*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scrift_settings")) {
+	    		printf("%4s: %s\n", "Settings*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scrift_history")) {
+	    		printf("%4s: %s\n", "History*", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".scr")) {
+            		printf("%4s: %s\n", "[Scrift]", entryname->d_name);
+            	} else if(strstr(entryname->d_name, ".cpp") || strstr(entryname->d_name, ".hpp") || strstr(entryname->d_name, ".cxx") || strstr(entryname->d_name, ".hxx") || strstr(entryname->d_name, ".cc") || strstr(entryname->d_name, ".hh")) {
+            		printf("%4s: %s\n", "[C++]", entryname->d_name);
+	    	} else if(strstr(entryname->d_name, ".c") || strstr(entryname->d_name, ".h")) {
+            		printf("%4s: %s\n", "[C]", entryname->d_name);		
+	    	} else if(strstr(entryname->d_name, "CMakeLists.txt")) {
+            		printf("%4s: %s\n", "[CMake]", entryname->d_name);	
+	    	} else if(strstr(entryname->d_name, ".sh")) {
+            		printf("%4s: %s\n", "[Bash]", entryname->d_name);
+	    	} else if(strstr(entryname->d_name, ".py")) {
+            		printf("%4s: %s\n", "[Python]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".fls") || strstr(entryname->d_name, ".flsh")) {
+		   	printf("%4s: %s\n", "[FlaScript]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".md")) {
+            		printf("%4s: %s\n", "[Markdown]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".frbr")) {
+	    		printf("%4s: %s\n", "[FreeBrain]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".png")) {
+	    		printf("%4s: %s\n", "[Png]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".jpg") || strstr(entryname->d_name, ".jpeg")) {
+	    		printf("%4s: %s\n", "[Jpg]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".gif")) {
+	    		printf("%4s: %s\n", "[Gif]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".html") || strstr(entryname->d_name, ".htm")) {
+	    		printf("%4s: %s\n", "[Html]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".rs") || strstr(entryname->d_name, ".rslib")) {
+	    		printf("%4s: %s\n", "[Rust]", entryname->d_name);
+		} else if(strstr(entryname->d_name, ".lua")) {
+	    		printf("%4s: %s\n", "[Lua]", entryname->d_name);	
+		} else if(strstr(entryname->d_name, ".inclink")) {
+	    		printf("%4s: %s\n", "[includeLink]", entryname->d_name);			
+		} else {
+               		printf("%4s: %s\n", "[File]", entryname->d_name);
+            	}
+	}
    	 closedir(directory);				
 	}
 
 	static std::string CDFunction(std::string path) {
-		return GetCurrentWorkingDir() + path;
+		return fsplusplus::GetCurrentWorkingDir() + path;
 	}
 	
 	static void ReadFile(std::string file) {
 		std::string line;
-    		std::ifstream readfile((GetCurrentWorkingDir() + "/" + file).c_str());
-    		if(readfile.is_open())
-    		{
-        	while (std::getline(readfile, line))
-        	{
+    		std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
+    		if(readfile.is_open()) {
+        	while (std::getline(readfile, line)) {
 			printf(line.c_str());
 			printf("\n");
         	}
@@ -324,7 +357,7 @@ namespace fsplusplus {
     	
     	static std::string ReadFileWithReturn(std::string file) {
 		std::string line;
-    		std::ifstream readfile((GetCurrentWorkingDir() + "/" + file).c_str());
+    		std::ifstream readfile((fsplusplus::GetCurrentWorkingDir() + "/" + file).c_str());
     		if(readfile.is_open()) {
         	while (std::getline(readfile, line)) {
 			return line + "\n";
@@ -339,13 +372,12 @@ namespace fsplusplus {
     	    DIR *directory;
     	    struct dirent *entryname;
 	    struct stat filestat;
-    	    directory = opendir(GetCurrentWorkingDir().c_str());
+    	    directory = opendir(fsplusplus::GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
-            printf("ERR: DIRECTORY OR FILE NOT FOUND OR NULL\n");
+            printf("Error: Directory not found.\n");
             return;
     	    }
-    	    while ((entryname = readdir(directory)))
-    	    {
+    	    while ((entryname = readdir(directory))) {
             stat(entryname->d_name, &filestat);
             if(entryname->d_type == DT_DIR) {
                 if(strstr(entryname->d_name, ".")) {
@@ -366,10 +398,8 @@ namespace fsplusplus {
     	static void ReadFilePath(std::string path) {
     		std::string line;
     		std::ifstream readfile(path.c_str());
-    		if(readfile.is_open())
-    		{
-        	while (std::getline(readfile, line))
-        	{
+    		if(readfile.is_open()) {
+        	while (std::getline(readfile, line)) {
 			printf(line.c_str());
 			printf("\n");
         	}
@@ -385,7 +415,7 @@ namespace fsplusplus {
     		if(readfile.is_open()) {
         	while (std::getline(readfile, line)) {
         		if(line.find("model name	: ") == 0) {
-				line = EraseAllSubString(line, "model name	: ");
+				line = fsplusplus::EraseAllSubString(line, "model name	: ");
 				printf(line.c_str());
 				printf("\n");
 				return;
@@ -403,7 +433,7 @@ namespace fsplusplus {
     		if(readfile.is_open()) {
         	while (std::getline(readfile, line)) {
         		if(line.find("PRETTY_NAME=\"") == 0) {
-				GetBtwString(line, "\"", "\"", line); 
+				fsplusplus::GetBtwString(line, "\"", "\"", line); 
 				printf(line.c_str());
 				printf("\n");
         		}
@@ -416,7 +446,7 @@ namespace fsplusplus {
 	
 	static void CreateFile(std::string name, std::string input) {
 		std::string path;
-    		path.append(GetCurrentWorkingDir());
+    		path.append(fsplusplus::GetCurrentWorkingDir());
     		path.append("/");
     		path.append(name);
     		std::ofstream file(path, std::ios::app);
@@ -426,7 +456,7 @@ namespace fsplusplus {
 	
 	static void CreateFileWithoutAppend(std::string name) {
 		std::string path;
-    		path.append(GetCurrentWorkingDir());
+    		path.append(fsplusplus::GetCurrentWorkingDir());
     		path.append("/");
     		path.append(name);
     		std::ofstream file(path);
