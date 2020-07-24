@@ -45,7 +45,7 @@ namespace fsplusplus {
     		else
        		rStr = "error"; 
 	}
-
+	
 	static std::string GetCurrentWorkingDir(void) {
   		char buff[FILENAME_MAX];
   		GetCurrentDir( buff, FILENAME_MAX );
@@ -59,7 +59,7 @@ namespace fsplusplus {
 	    struct stat filestat;
     	    directory = opendir(fsplusplus::GetCurrentWorkingDir().c_str());
     	    if(directory == NULL) {
-        	printf("ERR: DIRECTORY NOT FOUND OR NULL\n");
+        	printf("Error: Directory not found.\n");
         	return;
     	    }
             while ((entryname = readdir(directory))) {
@@ -411,15 +411,28 @@ namespace fsplusplus {
 	
 	static void ReadCPU() {
     		std::string line;
-    		std::ifstream readfile("/proc/cpuinfo");
-    		if(readfile.is_open()) {
+		#ifdef __FreeBSD__
+			std::ifstream readfile("/var/run/dmesg.boot");
+		#else     		
+			std::ifstream readfile("/proc/cpuinfo");
+		#endif    		
+		if(readfile.is_open()) {
         	while (std::getline(readfile, line)) {
-        		if(line.find("model name	: ") == 0) {
+			#ifdef __FreeBSD__
+			if(line.find("CPU: ") == 0) {
+				line = EraseAllSubString(line, "CPU: ");
+				printf(line.c_str());
+				printf("\n");
+				return;
+        		}
+			#else        		
+			if(line.find("model name	: ") == 0) {
 				line = fsplusplus::EraseAllSubString(line, "model name	: ");
 				printf(line.c_str());
 				printf("\n");
 				return;
         		}
+			#endif
         	}
         	readfile.close();
     	} else {
@@ -428,6 +441,9 @@ namespace fsplusplus {
 	}
 	
 	static void ReadOSName(std::string path) {
+		#ifdef __FreeBSD__
+		printf("FreeBSD\n");
+		#else
     		std::string line;
     		std::ifstream readfile(path.c_str());
     		if(readfile.is_open()) {
@@ -439,9 +455,10 @@ namespace fsplusplus {
         		}
         	}
         	readfile.close();
-    	} else {
-        	printf("Unable to open file\n");
-    	}
+		#endif
+    		} else {
+        		printf("Unable to open file\n");
+    		}
 	}
 	
 	static void CreateFile(std::string name, std::string input) {
