@@ -337,6 +337,85 @@ namespace fsplusplus {
    	 closedir(directory);				
 	}
 
+		
+	static std::string ListPathWithReturn(std::string path) {
+	    DIR *directory;
+	    std::string add;
+	    struct dirent *entryname;
+	    struct stat filestat;
+    	    directory = opendir(path.c_str());
+    	    if(directory == NULL) {
+        	return "null"; // Directory not found.
+    	    }
+            while ((entryname = readdir(directory))) {
+        	stat(entryname->d_name, &filestat);
+        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
+            	if(strstr(entryname->d_name, ".")) {
+            		// Null
+            	} else if(strstr(entryname->d_name, "..")){
+	    		// Null
+	    	} else {  
+          		add.append(entryname->d_name);
+            	}
+            } else {
+               	add.append(entryname->d_name);
+            }
+    	   }
+   	 closedir(directory);
+	}
+
+	static std::string ListDirectoryWithReturn(std::string path) {
+	    DIR *directory;
+	    std::string add;
+	    struct dirent *entryname;
+	    struct stat filestat;
+    	    directory = opendir(path.c_str());
+    	    if(directory == NULL) {
+        	return "null"; // Directory not found.
+    	    }
+            while ((entryname = readdir(directory))) {
+        	stat(entryname->d_name, &filestat);
+        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
+            	if(strstr(entryname->d_name, ".")) {
+            		// Null
+            	} else if(strstr(entryname->d_name, "..")){
+	    		// Null
+	    	} else {  
+          		add.append(entryname->d_name);
+            	}
+            } else {
+                // Null
+            }
+    	   }
+   	 closedir(directory);
+	}
+	
+	static std::string ListFileWithReturn(std::string path) {
+	    DIR *directory;
+	    std::string add;
+	    struct dirent *entryname;
+	    struct stat filestat;
+    	    directory = opendir(path.c_str());
+    	    if(directory == NULL) {
+        	return "null"; // Directory not found.
+    	    }
+            while ((entryname = readdir(directory))) {
+        	stat(entryname->d_name, &filestat);
+        	if(entryname->d_type == DT_DIR) {// DT_DIR -> directory
+            	if(strstr(entryname->d_name, ".")) {
+            		// Null
+            	} else if(strstr(entryname->d_name, "..")){
+	    		// Null
+	    	} else {  
+          		// Null
+            	}
+            } else {
+                add.append(entryname->d_name);
+            }
+    	   }
+   	 closedir(directory);
+	}
+
 	static std::string CDFunction(std::string path) {
 		return fsplusplus::GetCurrentWorkingDir() + path;
 	}
