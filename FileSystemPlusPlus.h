@@ -362,8 +362,10 @@ namespace fsplusplus {
             } else {
                	add.append(entryname->d_name);
             }
+		return add;
     	   }
-   	 closedir(directory);
+   	 	closedir(directory);
+		return "null";	
 	}
 
 	static std::string ListDirectoryWithReturn(std::string path) {
@@ -388,8 +390,10 @@ namespace fsplusplus {
             } else {
                 // Null
             }
+		return add;
     	   }
-   	 closedir(directory);
+   	    closedir(directory);
+	    return "null";
 	}
 	
 	static std::string ListFileWithReturn(std::string path) {
@@ -414,8 +418,10 @@ namespace fsplusplus {
             } else {
                 add.append(entryname->d_name);
             }
+		return add;
     	   }
-   	 closedir(directory);
+   	  closedir(directory);
+	  return "null";
 	}
 
 	static std::string CDFunction(std::string path) {
