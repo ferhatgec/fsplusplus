@@ -55,6 +55,12 @@ namespace fsplusplus {
   		return current_working_dir;
 	}
 
+	static bool IsExistFile(std::string path) {
+    		struct stat buffer;
+    		return (stat(path.c_str(), &buffer) == 0);
+	}
+
+
 	static void List() {
 	    DIR *directory;
 	    struct dirent *entryname;
@@ -86,7 +92,9 @@ namespace fsplusplus {
 	    		printf("%4s: %s\n", "History*", entryname->d_name);	
 	    	} else if(strstr(entryname->d_name, ".scr")) {
             		printf("%4s: %s\n", "[Scrift]", entryname->d_name);
-            	} else if(strstr(entryname->d_name, ".cpp") || strstr(entryname->d_name, ".hpp") || strstr(entryname->d_name, ".cxx") || strstr(entryname->d_name, ".hxx") || strstr(entryname->d_name, ".cc") || strstr(entryname->d_name, ".hh")) {
+            	} else if(strstr(entryname->d_name, ".cpp") || strstr(entryname->d_name, ".hpp") || 
+            		strstr(entryname->d_name, ".cxx") || strstr(entryname->d_name, ".hxx") || 
+            		strstr(entryname->d_name, ".cc") || strstr(entryname->d_name, ".hh")) {
             		printf("%4s: %s\n", "[C++]", entryname->d_name);
 	    	} else if(strstr(entryname->d_name, ".c") || strstr(entryname->d_name, ".h")) {
             		printf("%4s: %s\n", "[C]", entryname->d_name);		
@@ -154,7 +162,9 @@ namespace fsplusplus {
 	    		printf("%4s: %s\n", "History*", entryname->d_name);	
 	    	} else if(strstr(entryname->d_name, ".scr")) {
             		printf("%4s: %s\n", "[Scrift]", entryname->d_name);
-            	} else if(strstr(entryname->d_name, ".cpp") || strstr(entryname->d_name, ".hpp") || strstr(entryname->d_name, ".cxx") || strstr(entryname->d_name, ".hxx") || strstr(entryname->d_name, ".cc") || strstr(entryname->d_name, ".hh")) {
+            	} else if(strstr(entryname->d_name, ".cpp") || strstr(entryname->d_name, ".hpp") || 
+            		strstr(entryname->d_name, ".cxx") || strstr(entryname->d_name, ".hxx") || 
+            		strstr(entryname->d_name, ".cc") || strstr(entryname->d_name, ".hh")) {
             		printf("%4s: %s\n", "[C++]", entryname->d_name);
 	    	} else if(strstr(entryname->d_name, ".c") || strstr(entryname->d_name, ".h")) {
             		printf("%4s: %s\n", "[C]", entryname->d_name);		
@@ -185,7 +195,7 @@ namespace fsplusplus {
 		} else if(strstr(entryname->d_name, ".inclink")) {
 	    		printf("%4s: %s\n", "[includeLink]", entryname->d_name);			
 		} else {
-               		printf("%4s: %s\n", "[File]", entryname->d_name);
+               	printf("%4s: %s\n", "[File]", entryname->d_name);
             	}
     	 }
    	 closedir(directory);

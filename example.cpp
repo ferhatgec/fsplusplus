@@ -7,12 +7,16 @@
 #include "FileSystemPlusPlus.h"
 
 int main() {
-	fsplusplus::List();
+	//fsplusplus::List();
 	//fsplusplus::ListPath(fsplusplus::CDFunction("/.git"));
 	//fsplusplus::ReadFile("run.scr");
 	//fsplusplus::ReadFilePath(fsplusplus::GetCurrentWorkingDir() + "/" + "run.scr");
 	//fsplusplus::CreateFileWithoutAppend("hello");
 	//fsplusplus::CreateFile("hello", "Hello from FileSystem++");
-	fsplusplus::FindPath("e");
+	//fsplusplus::FindPath("e");
+	if(fsplusplus::IsExistFile("/bin/afetcheya") == true)
+		std::cout << "Yey!\n";
+	else
+		std::cout << "Yeyn't!\n";
 	return 0;
 }
