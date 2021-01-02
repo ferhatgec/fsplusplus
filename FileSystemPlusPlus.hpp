@@ -1,11 +1,11 @@
 /*# MIT License
 # 
-# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
+# Copyright (c) 2020-2021 Ferhat Geçdoğan All Rights Reserved.
 # Distributed under the terms of the MIT License.
 #*/
 
-#ifndef FILE_SYSTEM_PLUS_PLUS_H
-#define FILE_SYSTEM_PLUS_PLUS_H
+#ifndef FILE_SYSTEM_PLUS_PLUS_HPP
+#define FILE_SYSTEM_PLUS_PLUS_HPP
 
 #include <cstring>
 #include <iostream>
@@ -61,6 +61,21 @@ namespace fsplusplus {
     	return (stat(path.c_str(), &buffer) == 0);
 	}
 
+    /*
+        -1 : error
+        0  : directory
+        +1 : file
+        -2 : anything else?
+    */
+    static int8_t TypeOf(std::string path) 
+        struct stat info;
+
+        if(stat(path, &info) != 0) return -1;
+        else if(info.st_mode & S_IFDIR) return 0;
+        else return 1;
+        
+        return -2;
+    }
 
 	static void List() {
 	    DIR *directory;
@@ -505,4 +520,4 @@ namespace fsplusplus {
 	}
 }
 
-#endif // FILE_SYSTEM_PLUS_PLUS_H
+#endif // FILE_SYSTEM_PLUS_PLUS_HPP
