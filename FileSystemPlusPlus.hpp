@@ -500,8 +500,11 @@ namespace fsplusplus {
 	
 	static void CreateFile(std::string name, std::string input) {
         std::string path;
-        path.append(fsplusplus::GetCurrentWorkingDir());
-        path.append("/");
+        if(name.front() != '/') {
+            path.append(fsplusplus::GetCurrentWorkingDir());
+            path.append("/");
+        }
+
         path.append(name);
     
         std::ofstream file(path, std::ios::app);
@@ -511,8 +514,12 @@ namespace fsplusplus {
 	
 	static void CreateFileWithoutAppend(std::string name) {
 		std::string path;
-    	path.append(fsplusplus::GetCurrentWorkingDir());
-        path.append("/");
+
+		if(name.front() != '/') {
+            path.append(fsplusplus::GetCurrentWorkingDir());
+            path.append("/");
+        }
+
         path.append(name);
     	
         std::ofstream file(path);
